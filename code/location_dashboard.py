@@ -24,22 +24,17 @@ st.write(f'Total Issued Tickets: {total_issued[0]}')
 col1, col2 = st.columns(2)
 
 with col1:
-    #Bar Chart: Show the distribution of tickets by day of the week
     fig1, ax1 = plt.subplots()
-    ax1.set_title('Tickets Issued by Day of Week')
-    sns.countplot(data=df[df['location'] == new_location], x='dayofweek', ax=ax1, hue = 'dayofweek')
+    ax1.set_title('Tickets Issued by Hour of Day')
+    sns.barplot(data=df[df['location'] == new_location], x="hourofday", y="count", estimator="sum", hue="hourofday", ax=ax1)
     st.pyplot(fig1)
 
 with col2:
-    #Line Chart: Show the distribution of tickets by hour of the da
     fig2, ax2 = plt.subplots()
-    ax2.set_title('Tickets Issued by Hour of Day')
-    sns.countplot(data=df[df['location'] == new_location], x='hourofday', ax=ax2, hue = 'hourofday')
+    ax2.set_title('Tickets Issued by Day of Week')
+    sns.barplot(data=df[df['location'] == new_location], x="dayofweek", y="count", estimator="sum", hue="dayofweek", ax=ax2)
     st.pyplot(fig2)
 
-lat = df[df['location'] == new_location]['lat'].values[0]
-lon = df[df['location'] == new_location]['lon'].values[0]
-location = (lat, lon)
-map = folium.Map(location=location, zoom_start=14)
-new_map = folium.Marker(location=location, popup=new_location).add_to(map)
-sf.folium_static(map)
+filtered_df = df[df['location'] == new_location]
+st.map(filtered_df[['lat', 'lon']])
+
