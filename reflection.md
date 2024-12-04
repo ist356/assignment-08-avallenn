@@ -1,7 +1,7 @@
 # Reflection
 
-Student Name:  name
-Sudent Email:  email
+Student Name:  Avery
+Sudent Email:  avallen@syr.edu
 
 ## Instructions
 
@@ -23,3 +23,4 @@ Examples:
 **Best Reflection** "I learned when to use while vs for loops. While loops are for sentiel-controlled values (waiting for a condition to occur), vs for loops are for iterating over collections of fixed values."
 
 `--- Reflection Below This Line ---`
+This was very good practice for me as I was able to learn what I missed in class on Monday. I used the solutions to help reteach me about how to use geopandas. I was reminded that by using gpd.GeoDataFrame it creates a new dataframe that adds a geometry column to it to make it more useful to use to map. I also learned that df.explore allows use to add multiple markers to the map and right legends for them. The locations streamlit was a lot more straight forward for me as I was more familar with creating bar and line charts.
