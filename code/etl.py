@@ -12,10 +12,12 @@ def top_locations(violations_df : pd.DataFrame, threshold=1000) -> pd.DataFrame:
     return top_df
 
 def top_locations_mappable(violations_df : pd.DataFrame, threshold=1000) -> pd.DataFrame:
-    top_map = top_locations(violations_df, threshold)
-    merged_df = pd.merge(top_map, violations_df, on='location')
-    top_loc_df = merged_df[['location', 'amount_x', 'lat', 'lon']]
+    top_df = top_locations(violations_df, threshold)
+    combined = pd.merge(top_df, violations_df, left_on='location', 
+                        right_on='location')
+    top_loc_df = combined[['location', 'amount_x', 'lat', 'lon']]
     top_loc_dedupe_df = top_loc_df.drop_duplicates(subset='location')
+    top_loc_dedupe_df = top_loc_dedupe_df.rename(columns={'amount_x': 'amount'})
     return top_loc_dedupe_df
 
 

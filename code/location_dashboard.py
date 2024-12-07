@@ -13,28 +13,26 @@ df = pd.read_csv('./cache/tickets_in_top_locations.csv')
 st.title('Top Locations for Parking Tickets within Syracuse')
 #st.dataframe(df)
 locations = df['location'].unique()
-new_location = st.selectbox('Select a location', locations)
 
-total_issued = df[df['location'] == new_location].count()
-# add up total amount for the specified location from the selectbox
-total_amount = df[df['location'] == new_location]['amount'].sum()
-st.write(f'Total Amount: {total_amount}')
-st.write(f'Total Issued Tickets: {total_issued[0]}')
+location = st.selectbox('Select a location:', locations)
+if location:
+    filtered_df = df[df['location'] == location]
 
-col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
-with col1:
-    fig1, ax1 = plt.subplots()
-    ax1.set_title('Tickets Issued by Hour of Day')
-    sns.barplot(data=df[df['location'] == new_location], x="hourofday", y="count", estimator="sum", hue="hourofday", ax=ax1)
-    st.pyplot(fig1)
+    with col1:
+        st.metric("Total tickets issued", filtered_df.shape[0])
+        fig1, ax1 = plt.subplots()
+        ax1.set_title('Tickets Issued by Hour of Day')
+        sns.barplot(data=filtered_df, x="hourofday", y="count", estimator="sum", hue="hourofday", ax=ax1)
+        st.pyplot(fig1)
 
-with col2:
-    fig2, ax2 = plt.subplots()
-    ax2.set_title('Tickets Issued by Day of Week')
-    sns.barplot(data=df[df['location'] == new_location], x="dayofweek", y="count", estimator="sum", hue="dayofweek", ax=ax2)
-    st.pyplot(fig2)
+    with col2:
+        st.metric("Total amount", f"$ {filtered_df['amount'].sum()}")
+        fig2, ax2 = plt.subplots()
+        ax2.set_title('Tickets Issued by Day of Week')
+        sns.barplot(data=filtered_df, x="dayofweek", y="count", estimator="sum", hue="dayofweek", ax=ax2)
+        st.pyplot(fig2)
 
-filtered_df = df[df['location'] == new_location]
-st.map(filtered_df[['lat', 'lon']])
+    st.map(filtered_df[['lat', 'lon']])
 
